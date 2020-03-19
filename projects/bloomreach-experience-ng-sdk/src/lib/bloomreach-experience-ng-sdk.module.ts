@@ -16,7 +16,6 @@
 
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
 import { ApiUrlsService } from './services/api-urls.service';
@@ -46,13 +45,12 @@ import { InitializeSdkService } from './services/initialize-sdk.service';
     CmsEditButtonComponent,
     RenderCmsComponent,
   ],
-  entryComponents: [ UndefinedComponent ],
+  entryComponents: [UndefinedComponent],
   imports: [
     CommonModule,
-    HttpClientModule,
     RouterModule,
   ],
-  exports: [CmsEditButtonComponent, RenderCmsComponent ]
+  exports: [CmsEditButtonComponent, RenderCmsComponent]
 })
 export class BloomreachExperienceNgSdkModule {
   static forRoot(): ModuleWithProviders {

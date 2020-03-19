@@ -40,7 +40,7 @@ export class InitializeSdkService {
     this.onComponentUpdate = this.onComponentUpdate.bind(this);
   }
 
-  initialize({initializePageModel = true, initializeRouterEvents = true} = {}): Subscription | void {
+  initialize({ initializePageModel = true, initializeRouterEvents = true } = {}): Subscription | void {
     this.initializeCmsIntegration();
 
     if (initializePageModel) {
@@ -67,13 +67,15 @@ export class InitializeSdkService {
       ? this.pageModelService.setPageModel(this.transferState.get(stateKey, null))
       : this.pageModelService.fetchPageModel();
 
-    $pageModel
-      .pipe(first())
-      .subscribe(() => {
-        if (hasState) {
-          this.transferState.remove(stateKey);
-        }
-      });
+    if ($pageModel) {
+      $pageModel
+        .pipe(first())
+        .subscribe(() => {
+          if (hasState) {
+            this.transferState.remove(stateKey);
+          }
+        });
+    }
 
     if (isPlatformServer(this.platformId) && this.transferState) {
       this.transferState.onSerialize(stateKey, () => this.pageModelService.pageModel);

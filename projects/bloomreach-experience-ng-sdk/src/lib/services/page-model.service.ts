@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, Optional } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, Observable, of, Subject} from 'rxjs';
+import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { ApiUrlsService } from './api-urls.service';
 import { RequestContextService } from './request-context.service';
@@ -47,17 +47,19 @@ export class PageModelService {
   constructor(
     private apiUrlsService: ApiUrlsService,
     private requestContextService: RequestContextService,
-    private http: HttpClient,
+    @Optional() private http: HttpClient,
   ) {
     this.pageModelSubject.subscribe(() => this.processPageModel());
   }
 
   fetchPageModel() {
     const apiUrl: string = this.buildApiUrl();
-    return this.http.get<any>(apiUrl, this.httpGetOptions).pipe(
-      tap(response => void this.setPageModel(response)),
-      catchError(this.handleError('fetchPageModel', undefined))
-    );
+    if (this.http) {
+      return this.http.get<any>(apiUrl, this.httpGetOptions).pipe(
+        tap(response => void this.setPageModel(response)),
+        catchError(this.handleError('fetchPageModel', undefined))
+      );
+    }
   }
 
   private processPageModel() {
@@ -98,19 +100,21 @@ export class PageModelService {
     const body: string = toUrlEncodedFormData(propertiesMap);
     const url: string = this.buildApiUrl(componentId);
 
-    return this.http.post<any>(url, body, this.httpPostOptions).pipe(
-      tap(response => {
-        const preview = this.requestContextService.isPreviewRequest();
-        this.setPageModel(_updateComponent(
-          response,
-          componentId,
-          this.pageModel,
-          this.channelManagerApi,
-          preview,
-          debugging
-        ));
-      }),
-      catchError(this.handleError('updateComponent', undefined)));
+    if (this.http) {
+      return this.http.post<any>(url, body, this.httpPostOptions).pipe(
+        tap(response => {
+          const preview = this.requestContextService.isPreviewRequest();
+          this.setPageModel(_updateComponent(
+            response,
+            componentId,
+            this.pageModel,
+            this.channelManagerApi,
+            preview,
+            debugging
+          ));
+        }),
+        catchError(this.handleError('updateComponent', undefined)));
+    }
   }
 
   getContentViaReference(contentRef: string): any {
