@@ -45,12 +45,12 @@ import { InitializeSdkService } from './services/initialize-sdk.service';
     CmsEditButtonComponent,
     RenderCmsComponent,
   ],
-  entryComponents: [UndefinedComponent],
+  entryComponents: [ UndefinedComponent ],
   imports: [
     CommonModule,
     RouterModule,
   ],
-  exports: [CmsEditButtonComponent, RenderCmsComponent]
+  exports: [CmsEditButtonComponent, RenderCmsComponent ]
 })
 export class BloomreachExperienceNgSdkModule {
   static forRoot(): ModuleWithProviders {

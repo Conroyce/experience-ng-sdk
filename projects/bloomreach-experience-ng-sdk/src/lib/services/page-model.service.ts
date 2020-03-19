@@ -16,7 +16,7 @@
 
 import { Injectable, Optional } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subject} from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { ApiUrlsService } from './api-urls.service';
 import { RequestContextService } from './request-context.service';

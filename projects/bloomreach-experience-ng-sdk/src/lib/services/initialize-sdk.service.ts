@@ -40,7 +40,7 @@ export class InitializeSdkService {
     this.onComponentUpdate = this.onComponentUpdate.bind(this);
   }
 
-  initialize({ initializePageModel = true, initializeRouterEvents = true } = {}): Subscription | void {
+  initialize({initializePageModel = true, initializeRouterEvents = true} = {}): Subscription | void {
     this.initializeCmsIntegration();
 
     if (initializePageModel) {
